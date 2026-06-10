@@ -1,19 +1,18 @@
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 import joblib
 
 df = pd.read_csv('data.csv')
 df = df.dropna(axis=1)
 
-from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
-df.iloc[:,1] = le.fit_transform(df.iloc[:,1].values)
+df['diagnosis'] = le.fit_transform(df['diagnosis'].values)
 
-X = df.iloc[:,2:32].values
-Y = df.iloc[:,1].values.astype(int)
+X = df.iloc[:, 2:32].values
+Y = df['diagnosis'].values.astype(int)
 
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.20, random_state=0)
 
